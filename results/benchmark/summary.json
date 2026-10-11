@@ -1,0 +1,154 @@
+{
+  "outages": [
+    {
+      "duration": 10.0,
+      "filter": "ekf",
+      "end_median": 0.4273,
+      "end_max": 0.6593,
+      "peak_max": 0.6593,
+      "inside_3sigma": 1.0,
+      "err_over_sigma_end_median": 1.1851063829787234,
+      "yaw_end_median": 0.1048,
+      "per_outage_end": [
+        0.659,
+        0.427,
+        0.491,
+        0.39,
+        0.218
+      ]
+    },
+    {
+      "duration": 10.0,
+      "filter": "ukf",
+      "end_median": 0.428,
+      "end_max": 0.6606,
+      "peak_max": 0.6606,
+      "inside_3sigma": 1.0,
+      "err_over_sigma_end_median": 1.1931644797070493,
+      "yaw_end_median": 0.1052,
+      "per_outage_end": [
+        0.661,
+        0.428,
+        0.49,
+        0.391,
+        0.218
+      ]
+    },
+    {
+      "duration": 30.0,
+      "filter": "ekf",
+      "end_median": 2.0567,
+      "end_max": 3.3847,
+      "peak_max": 3.3847,
+      "inside_3sigma": 1.0,
+      "err_over_sigma_end_median": 0.9167781046625659,
+      "yaw_end_median": 0.1316,
+      "per_outage_end": [
+        1.581,
+        0.806,
+        2.057,
+        3.385,
+        2.232
+      ]
+    },
+    {
+      "duration": 30.0,
+      "filter": "ukf",
+      "end_median": 2.0442,
+      "end_max": 3.3765,
+      "peak_max": 3.3765,
+      "inside_3sigma": 1.0,
+      "err_over_sigma_end_median": 0.9135681086878799,
+      "yaw_end_median": 0.132,
+      "per_outage_end": [
+        1.59,
+        0.814,
+        2.044,
+        3.376,
+        2.239
+      ]
+    },
+    {
+      "duration": 60.0,
+      "filter": "ekf",
+      "end_median": 9.7143,
+      "end_max": 16.1539,
+      "peak_max": 16.1539,
+      "inside_3sigma": 1.0,
+      "err_over_sigma_end_median": 0.7826917189035886,
+      "yaw_end_median": 0.0463,
+      "per_outage_end": [
+        13.749,
+        7.927,
+        8.77,
+        16.154,
+        9.714
+      ]
+    },
+    {
+      "duration": 60.0,
+      "filter": "ukf",
+      "end_median": 9.7485,
+      "end_max": 16.1157,
+      "peak_max": 16.1157,
+      "inside_3sigma": 1.0,
+      "err_over_sigma_end_median": 0.788445673800165,
+      "yaw_end_median": 0.0461,
+      "per_outage_end": [
+        13.782,
+        7.906,
+        8.698,
+        16.116,
+        9.748
+      ]
+    },
+    {
+      "duration": 120.0,
+      "filter": "ekf",
+      "end_median": 55.449,
+      "end_max": 114.104,
+      "peak_max": 114.104,
+      "inside_3sigma": 1.0,
+      "err_over_sigma_end_median": 0.7115386836361117,
+      "yaw_end_median": 0.0947,
+      "per_outage_end": [
+        114.104,
+        55.449,
+        35.49,
+        73.767,
+        41.249
+      ]
+    },
+    {
+      "duration": 120.0,
+      "filter": "ukf",
+      "end_median": 55.1423,
+      "end_max": 114.2447,
+      "peak_max": 114.2447,
+      "inside_3sigma": 1.0,
+      "err_over_sigma_end_median": 0.7098511228542188,
+      "yaw_end_median": 0.0942,
+      "per_outage_end": [
+        114.245,
+        55.142,
+        34.899,
+        73.533,
+        41.397
+      ]
+    }
+  ],
+  "heading_mc": {
+    "ekf": {
+      "runs": 20,
+      "converged": 20,
+      "median_convergence_s": 50.12,
+      "final_yaw_median_deg": 0.2925
+    },
+    "ukf": {
+      "runs": 20,
+      "converged": 19,
+      "median_convergence_s": 50.12,
+      "final_yaw_median_deg": 0.2923
+    }
+  }
+}

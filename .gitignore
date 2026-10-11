@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Private device configuration (contains credentials / serial numbers) - never commit
+ConfigINS*.json
+*.private.*
+
+# Generated outputs (figures for the README live in docs/figures/)
+results/runs/
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,41 @@
+# Mechanical setup of the test vehicle during the acquisition.
+# All vectors are expressed in the IMU body frame: x forward, y right, z down (FRD), in meters.
+# Extracted from the INS configuration used during the recording (the raw device file is kept private).
+
+imu:
+  model: SBG Ekinox2-ISU (Ekinox-D)
+  rate_hz: 200
+  frame: FRD            # x forward, y right, z down; aligned with the vehicle (no misalignment)
+
+gnss:
+  receiver: Trimble (dual antenna), logged as SBG "gnss2"
+  corrections: Trimble RTX (reported by the receiver as solution type RTK_FLOAT)
+  antennas: two magnetic puck antennas on the car roof / sunroof frame
+  rate_hz: 5
+  # Lever arms measured by hand from the IMU to the antenna reference point (ARP, antenna base).
+  # The antenna model configured in the receiver is unknown, so the GNSS position is assumed to be
+  # reported at the ARP (no phase-center offset applied).
+  lever_arm_primary: [-0.90, -0.77, -1.20]     # IMU -> primary antenna ARP
+  # The secondary antenna sits 2.7 cm higher than the primary on the crowned roof: the receiver's own
+  # baseline elevation output (dual-antenna "pitch", corrected for the vehicle roll) is 2.0 deg over the
+  # 0.77 m baseline. Ignoring it biases the heading by ~0.1-0.3 deg depending on the vehicle pitch.
+  lever_arm_secondary: [-0.90, 0.00, -1.227]   # IMU -> secondary antenna ARP
+  # The dual-antenna baseline (primary -> secondary) points along +y (right):
+  # the measured "heading" is the baseline azimuth = vehicle yaw + 90 deg.
+  heading_offset_deg: 90.0
+
+reference:
+  description: SBG Qinertia post-processed (PPK, forward/backward) INS solution, at the IMU point
+  altitude: WGS84 ellipsoidal height
+  # Note: an earlier MSL export used EGM2008, whereas the Trimble receiver reports MSL with EGM96
+  # (EGM2008 - EGM96 = 0.16 to 0.27 m here). Everything is now compared in ellipsoidal heights.
+  # To use an MSL export instead, give its geoid as control points [lat_deg, lon_deg, N_m]:
+  # geoid_control_points:
+  #   - [33.7003, -117.9083, -35.2447]     # EGM2008, GeographicLib GeoidEval
+  #   - [33.6730, -117.9177, -35.2936]
+  time: GPS time of week [s]
+
+time:
+  # The SBG log timestamps are device time in microseconds. GPS time of week is recovered from the
+  # gpsTow field of the GNSS messages (constant offset over the whole log).
+  tow_offset_source: gnss2Pos

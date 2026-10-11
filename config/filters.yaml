@@ -1,0 +1,56 @@
+# Filter tuning, shared by the ES-EKF and the ES-UKF (same models, same numbers: fair comparison).
+
+imu_noise:
+  # White noise measured on the 113 s standstill (engine running): the raw 200 Hz noise is dominated by
+  # engine vibration that averages out; over 1 s it is equivalent to the values below (set by the vehicle
+  # vibrations rather than by the sensor noise).
+  vrw: 0.04          # accelerometer velocity random walk [m/s/sqrt(h)]
+  arw: 0.20          # gyro angle random walk [deg/sqrt(h)]
+  # Bias instability, modelled as random walks with PSD 2 sigma^2 / tau
+  ba_sigma: 0.05     # [mg]
+  ba_tau: 3600.0     # [s]
+  # Here the IMU warms up from 33 to 38 degC during the drive and the x/y biases change slowly with it
+  # (measured on the standstills): the random walk is set from the data, not for a constant temperature.
+  bg_sigma: 20.0     # [deg/h]
+  bg_tau: 3600.0     # [s]
+  sg_rw: 10.0        # gyro scale-factor random walk [ppm/sqrt(h)] (nearly constant)
+  # Time-correlated GNSS position error (RTX), first-order Gauss-Markov. From the GNSS-minus-reference
+  # residuals: autocorrelation 0.5 after 5 s horizontally (0.7 vertically), std 5 / 8 cm.
+  gnss_pos_error: {sigma_h: 0.05, tau_h: 7.0, sigma_v: 0.08, tau_v: 12.0}    # [m], [s]
+  # Dual-antenna heading error: constant misalignment + slow multipath wander (~0.25 deg over 5 min)
+  heading_error_rw: 0.0144   # [deg/sqrt(s)]  = 0.25 deg / sqrt(300 s)
+
+initial_uncertainty:          # 1-sigma at the end of the coarse alignment
+  position: from_gnss         # receiver-reported accuracy
+  velocity: 0.1               # [m/s]
+  roll_pitch: 0.5             # [deg]
+  heading: 2.0                # [deg]
+  accel_bias: 2.0             # [mg]
+  gyro_bias: 200.0            # [deg/h]   raw IMU output: turn-on biases estimated by the filter
+  gyro_scale_factor: 10000.0  # [ppm]     wide on purpose: effective scale factors of the raw data estimated online
+  gnss_pos_error: from_model  # steady-state sigma of the Gauss-Markov process
+  baseline_azimuth: 1.0       # [deg] misalignment of the hand-placed dual-antenna baseline
+
+alignment:
+  static_duration: 5.0        # [s] of IMU data averaged for roll / pitch (vehicle at rest at start)
+
+measurements:
+  # White part of the GNSS position noise (the correlated part is the gnss_pos_error state).
+  position: {use: true, std_floor: 0.01, std_scale: 1.0}   # [m]
+  velocity: {use: true, std_floor: 0.05, std_scale: 1.0}     # [m/s] receiver reports 0.03, actual noise 0.04-0.055
+  heading:  {use: true, std_floor: 0.2,  std_scale: 1.0}     # [deg]
+
+gating:
+  # Innovation chi-square test (NIS) per measurement; probability of false rejection 1e-3.
+  enabled: true
+  probability: 0.999
+  reacquire_after: 10     # consecutive rejections (2 s at 5 Hz) before forcing the re-acquisition
+
+ukf:
+  # Scaled unscented transform. alpha = 1, beta = 2, kappa = 0: non-negative weights (PSD covariance by
+  # construction), sigma points at sqrt(n) = 4.7 sigma.
+  alpha: 1.0
+  beta: 2.0
+  kappa: 0.0
+  # Sigma points are regenerated every N IMU samples (and before every GNSS update): 20 -> 10 Hz.
+  propagation_steps: 20

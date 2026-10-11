@@ -1,0 +1,8 @@
+ukf    10 s outages: worst horizontal drift    0.66 m (333 s)
+ukf    30 s outages: worst horizontal drift    3.38 m (327 s)
+ukf    60 s outages: worst horizontal drift   16.12 m (334 s)
+ukf   120 s outages: worst horizontal drift  114.24 m (310 s)
+ekf    10 s outages: worst horizontal drift    0.66 m (120 s)
+ekf    30 s outages: worst horizontal drift    3.38 m (122 s)
+ekf    60 s outages: worst horizontal drift   16.15 m (116 s)
+ekf   120 s outages: worst horizontal drift  114.10 m (104 s)
